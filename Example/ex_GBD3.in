@@ -1,0 +1,49 @@
+#########
+# NOTES #
+#########
+# ligandStart must come before boundary for checks to work properly. i think thats the only ordering issue that matters.
+# ! Ligand/rec pqr must have END at end
+# Put all recs together in a pqr for receptor pqr, but each rec can have a sep grid for just that mol/protein
+
+#### Basic Configuration ####
+temperature 298.15
+timestep 0.05 0.5 75 500
+threads 10
+convergence 0.0001
+convWindow 1000
+useRestart no
+
+#### Receptor ####
+receptor IGPS.pqr
+fixedReceptor off   # "on" or "off"
+
+#### Potential Grids ####
+grid ex IGPS-ex.bxm
+grid es IGPS-es.bpm
+grid C IGPS-C.bpm
+grid H IGPS-H.bpm
+grid O IGPS-O.bpm
+grid N IGPS-N.bpm
+grid P IGPS-P.bpm
+grid D IGPS-d.bpm
+
+#### Ligand ####
+ligand crp.pqr 1000
+ligandStart 100 300
+ligandFlux 0.000
+#directCut 150
+bindGroups -9.356 2.086 13.730 18 10
+
+#### Simulation Boundaries (ignored for NAM simulations) #### 
+boundary rect   # Must be "rect", "hex", or "sphere"
+boundWall 250     # sets x/y width of rect or hex, or radius of sphere
+planeWidth 150
+ceiling 500
+
+#### Monitoring & Output ####
+#logExiters
+logBinders
+#logDirect
+writeTraj 5000
+writeRestart 100000
+
