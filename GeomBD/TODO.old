@@ -1,0 +1,79 @@
+////////////// TO-DO LIST ///////////////
+XXX DONE 7.  Check if rect/hex are starting w rec at bottome automatically or is rec centered?
+
+XXX DONE 9.  Eliminiate useless code for inital Q.xyz assing in sphere code, I think it does nothing
+
+XXX DONE 10. Add in ceiling keyword for top of rect and hex sims
+
+XXX DONE 11. Figure out why model->center.z doesn't work and needs to be commented out currently. *I think b/c z was 0 for test receptor
+             we saw no difference between having center.z there vs not there
+
+XXX DONE 12. Figure out bounds_max.z I think has/had a problem of always being 0 no matter what. Check on this in Session.cc
+
+XXX DONE 13. Make uniform keyword format. *Made them all camel case
+
+XXX DONE 14. Make one 'ligandStart' keyword and have it branch to random, points, plane, or NAM. Started..to finish need to 
+       check if (token2 && tokne3 not empty)....
+       This compiled, now check with test runs
+XXX DONE 16. Is there a contractdtion btwn sphere boundaries and ligandStart with one number (ie a bplane height)?
+        * Added usePlane bool to send error if sphere used w/ plane*
+
+XXX DONE 17. Check all new ligStart conditions for contradicitons etc
+XXX DONE 21. Make no rotation for point starts since they are starting usually from a pocket to avoid atom overlap
+
+XXX DONE 22. Check that sphereical-nonNAM puts receptor at center and rec/hex put it at bottom-center of cell. This is done
+    by in rec/hex not letting ligs go below receptor min.z, but in sphere we dont do that
+XXX DONE 25. Test what happes is numbers are not floats, but just integers for ligandStart *Its fine, it works normally*
+XXX DONE 29. Check off center receptor and how boudnaries work on it. *Works. Boundary is moved relative to rec, rec is not moved to 0 0 0*
+XXX DONE 32. Change exBnd variable to wall or boundwall
+XXX DONE 36. Small issue may remain with z translate in session.cc (translate() by center.z + Q.z or receptor_min.z + Q.z or just Q.z?)
+XXX DONE37. Check once again all boundaries w/ all shapes to confirm still work after changes to code
+XXX DONE -- Why does top of sphere have a dent in it w/ no ligands? Tjhis happens on only ranradom start, not nam
+XXX DONE -- b/q sphere looks to be centered based on bottom of hairpin, not center. Look with other receptors wher it will be more obvs
+    and figure out whats wrong if anything
+XXX DONE -- Check if slippage from hex boudnary can be stopped by doing <= or >= on y translate boundaries
+XXX DONE -- Make it automatically use restart if restart files -t -c are provided in command
+XXX DONE -- Make conv be based on SEM, not SD of running avg
+XXx DONE -- Make SEM conv only happen after >50 binders or so
+XXX DONE --  Add in timers/counters for individual binding criteria
+
+----------------------------------------------------------
+----------------------------------------------------------
+
+--  Finish new grid shape. After gridder part done, reading in grid files by GBD (Grid_EX.h etc) may also need
+    to be updated
+
+--  Add in flow functionality and keyword
+
+--  Delete redundant code (old session keywords udner backwards-compatitblity) and possibly session nam/session indirect are same
+    plus whatever else I find
+
+-- Work on Grid-D, test it, it might wokr already. And understand how it works.
+     - Tests on CH and OH small surf show that D causes severe stickig on both surfaces.
+     - Try it on a charged surf like COO-
+
+-- Test again the LJ scaling necessaryfor agreement w MD. D's masured before may have been wrong
+
+-- Figure out why LJ full values dont work and cause sticking. Try other potential forms, like 8-6 or something? Research this problem,
+    what have others used
+
+-- Make it check that start point is within boundary!
+
+-- Clean up input file, reorganize it
+
+-- Figure out where newest AA params are located and make it clear, combine all params if needed
+
+-- Hydrodynamic interactions?
+
+-- ! Can it make more than 1 ex/lj/es grid for multi receptors? Why do grid types have .size() attribute?
+
+-- Check what happens if receptor has negative coordinates.....
+
+-- Make nam beta kon calcs etc only happen for nam settings
+
+-- Clean up output to screen on GBD start
+
+-- For all grids: make it give clearer output w/ padding/param values used, and make ES not need ligand input anymore, as its
+   not reqd and v confusing. Check if D needs ligand too and if not, remove that input too
+
+-- Make output file extensions make more sense, leave off *.dcd.* part. Only have dcd on actual dcd.

@@ -1,0 +1,107 @@
+#        Element  Rii       Epsii      Vol      SolPar
+atom_par a        8.20      0.267      
+atom_par r        18.20     0.267      
+atom_par n        11.00     0.267      
+atom_par d        11.00     0.267      
+atom_par c        9.00      0.267      
+atom_par q        13.60     0.267      
+atom_par e        13.40     0.267      
+atom_par g        8.40      0.267      
+atom_par h        12.80     0.267      
+atom_par i        11.20     0.267      
+atom_par l        11.40     0.267      
+atom_par k        8.20      0.267      
+atom_par m        14.60     0.267      
+atom_par f        14.00     0.267      
+atom_par p        8.20      0.267      
+atom_par s        8.60      0.267      
+atom_par t        8.80      0.267      
+atom_par w        16.60     0.267      
+atom_par y        16.60     0.267      
+atom_par v        8.60      0.267      
+
+#        Residue Element    PartialQ        Element
+frag_par ALA      CA        0.000000        a
+frag_par ARG      CA        1.000000        r
+frag_par ASN      CA        0.000000        n
+frag_par ASP      CA       -1.000000        d
+frag_par ASH      CA        0.000000        d
+frag_par CYS      CA        0.000000        c
+frag_par CYM      CA       -1.000000        c
+frag_par CYX      CA        0.000000        c
+frag_par GLN      CA        0.000000        q
+frag_par GLU      CA       -1.000000        e
+frag_par GLH      CA        0.000000        e
+frag_par GLY      CA        0.000000        g
+frag_par HIS      CA        0.000000        h
+frag_par HID      CA        0.000000        h
+frag_par HIE      CA        0.000000        h
+frag_par HIP      CA        0.000000        h
+frag_par ILE      CA        0.000000        i
+frag_par LEU      CA        0.000000        l
+frag_par LYS      CA        1.000000        k
+frag_par LYN      CA        0.000000        k
+frag_par MET      CA        0.000000        m
+frag_par PHE      CA        0.000000        f
+frag_par PRO      CA        0.000000        p
+frag_par SER      CA        0.000000        s
+frag_par THR      CA        0.000000        t
+frag_par TRP      CA        0.000000        w
+frag_par TYR      CA        0.000000        y
+frag_par VAL      CA        0.000000        v
+frag_par CALA     CA        0.000000        a
+frag_par CARG     CA        1.000000        r
+frag_par CASN     CA        0.000000        n
+frag_par CASP     CA       -1.000000        d
+frag_par CASH     CA        0.000000        d
+frag_par CCYS     CA        0.000000        c
+frag_par CCYM     CA       -1.000000        c
+frag_par CCYX     CA        0.000000        c
+frag_par CGLN     CA        0.000000        q
+frag_par CGLU     CA       -1.000000        e
+frag_par CGLH     CA        0.000000        e
+frag_par CGLY     CA        0.000000        g
+frag_par CHIS     CA        0.000000        h
+frag_par CHID     CA        0.000000        h
+frag_par CHIE     CA        0.000000        h
+frag_par CHIP     CA        0.000000        h
+frag_par CILE     CA        0.000000        i
+frag_par CLEU     CA        0.000000        l
+frag_par CLYS     CA        1.000000        k
+frag_par CLYN     CA        0.000000        k
+frag_par CMET     CA        0.000000        m
+frag_par CPHE     CA        0.000000        f
+frag_par CPRO     CA        0.000000        p
+frag_par CSER     CA        0.000000        s
+frag_par CTHR     CA        0.000000        t
+frag_par CTRP     CA        0.000000        w
+frag_par CTYR     CA        0.000000        y
+frag_par CVAL     CA        0.000000        v
+frag_par NALA     CA        0.000000        a
+frag_par NARG     CA        1.000000        r
+frag_par NASN     CA        0.000000        n
+frag_par NASP     CA       -1.000000        d
+frag_par NASH     CA        0.000000        d
+frag_par NCYS     CA        0.000000        c
+frag_par NCYM     CA       -1.000000        c
+frag_par NCYX     CA        0.000000        c
+frag_par NGLN     CA        0.000000        q
+frag_par NGLU     CA       -1.000000        e
+frag_par NGLH     CA        0.000000        e
+frag_par NGLY     CA        0.000000        g
+frag_par NHIS     CA        0.000000        h
+frag_par NHID     CA        0.000000        h
+frag_par NHIE     CA        0.000000        h
+frag_par NHIP     CA        0.000000        h
+frag_par NILE     CA        0.000000        i
+frag_par NLEU     CA        0.000000        l
+frag_par NLYS     CA        1.000000        k
+frag_par NLYN     CA        0.000000        k
+frag_par NMET     CA        0.000000        m
+frag_par NPHE     CA        0.000000        f
+frag_par NPRO     CA        0.000000        p
+frag_par NSER     CA        0.000000        s
+frag_par NTHR     CA        0.000000        t
+frag_par NTRP     CA        0.000000        w
+frag_par NTYR     CA        0.000000        y
+frag_par NVAL     CA        0.000000        v

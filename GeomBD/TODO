@@ -1,0 +1,276 @@
+
+/////////////////////////////////////////
+////////////// TO-DO LIST ///////////////
+/////////////////////////////////////////
+
+XXX DONE 7.  Check if rect/hex are starting w rec at bottome automatically or is rec centered?
+
+XXX DONE 9.  Eliminiate useless code for inital Q.xyz assing in sphere code, I think it does nothing
+
+XXX DONE 10. Add in ceiling keyword for top of rect and hex sims
+
+XXX DONE 11. Figure out why model->center.z doesn't work and needs to be commented out currently. *I think b/c z was 0 for test receptor
+             we saw no difference between having center.z there vs not there
+
+XXX DONE 12. Figure out bounds_max.z I think has/had a problem of always being 0 no matter what. Check on this in Session.cc
+
+XXX DONE 13. Make uniform keyword format. *Made them all camel case
+
+XXX DONE 14. Make one 'ligandStart' keyword and have it branch to random, points, plane, or NAM. Started..to finish need to 
+       check if (token2 && tokne3 not empty)....
+       This compiled, now check with test runs
+XXX DONE 16. Is there a contractdtion btwn sphere boundaries and ligandStart with one number (ie a bplane height)?
+        * Added usePlane bool to send error if sphere used w/ plane*
+
+XXX DONE 17. Check all new ligStart conditions for contradicitons etc
+XXX DONE 21. Make no rotation for point starts since they are starting usually from a pocket to avoid atom overlap
+
+XXX DONE 22. Check that sphereical-nonNAM puts receptor at center and rec/hex put it at bottom-center of cell. This is done
+    by in rec/hex not letting ligs go below receptor min.z, but in sphere we dont do that
+XXX DONE 25. Test what happes is numbers are not floats, but just integers for ligandStart *Its fine, it works normally*
+XXX DONE 29. Check off center receptor and how boudnaries work on it. *Works. Boundary is moved relative to rec, rec is not moved to 0 0 0*
+XXX DONE 32. Change exBnd variable to wall or boundwall
+XXX DONE 36. Small issue may remain with z translate in session.cc (translate() by center.z + Q.z or receptor_min.z + Q.z or just Q.z?)
+XXX DONE37. Check once again all boundaries w/ all shapes to confirm still work after changes to code
+XXX DONE -- Why does top of sphere have a dent in it w/ no ligands? Tjhis happens on only ranradom start, not nam
+XXX DONE -- b/q sphere looks to be centered based on bottom of hairpin, not center. Look with other receptors wher it will be more obvs
+    and figure out whats wrong if anything
+XXX DONE -- Check if slippage from hex boudnary can be stopped by doing <= or >= on y translate boundaries
+XXX DONE -- Make it automatically use restart if restart files -t -c are provided in command
+XXX DONE -- Make conv be based on SEM, not SD of running avg
+XXx DONE -- Make SEM conv only happen after >50 binders or so
+XXX DONE --  Add in timers/counters for individual binding criteria
+XXX DONE -- Make output file extensions make more sense, leave off *.dcd.* part. Only have dcd on actual dcd.
+XXX DONE-- Possible porblem w/ ligand movement getting v weird after restart. Happend to King twice. Was ligand 1 boht times. Do tests.
+        -- I cannot replicate this probelm after many tests. Eventually King also go a good run w/o problem. I will consider it
+            a non-issue, may have been problem w Kings input.
+XXX DONE-- Add in full S calc in ModelInput! Tihs will save a ton of time by taking it out of atom loop in Model Force
+XXX DONE-- Work on Grid-D, test it, it might wokr already. And understand how it works.
+           - Other version is (Si * Vj * exp(-rij^2/2s^2) = Gsolv. If atom i come close to                                   
+             atoms j, i has to be desolvated by j. Therefore if rij decreases, exp(-rij2/2s2) gets bigger, and Gsolv gets bigger. 
+             If rij is large, i and j and far apart and feel no desolv potential.
+     	   - S_i, the overall solpar for rec atom i is ASP_i + QASP*|q_i|. QASP is empirical constant,
+             ASP is unique to each atom type.
+           - Then, Gsolv_i is: S_i * vol_j * exp(-rij^2/2s^2), summed over j surrounding atoms which must desolvate i
+XXX DONE-- Get D grid working in a basic sense, pass basic check
+XXX DONE-- Hydrodynamic interactions? *Not done becasue tensor takes too long to calculate, and HI are not same as desolvation.
+XXX DONE-- Got negative step numbers on neu probe test log. When it turns neg, it starts counting downward from the last positive number. This happends
+           becus "step" is an int in model.h. But chaning it to a double make the modulus operator not work. There is  modulus operator for doubles,
+           but it doesnt evalueate to exactly 0, so it could cause problems later. Its called fmod. I thikn it might be easier to just keep it as an
+           int and say inthe manual it will go negative after 2.147 B steps or so.
+  DONE -- Initial tests of igps w/ crp and igps w/ a probe bead showed that full D params are too strong
+   DONE -- Re-trying with 0.2-weighted D params for the same systems
+   DONE -- 0.2 weight gives like 2x longer almost bind time for ligand or probe. Now tryign 0.1 weight.
+   DONE --  I have made it output desolv and elec E in the log I htink. Code is set/compiled, now test.
+   DONE -- Get ache/acoa system parameterized next.
+XXX DONE-- Do good assoc time tests of D grid now that it works apparently. Testing crp assoc with IGPS w/ and w/o D grid loaded.
+DONE-- Will do 1-rep probe and ach sims on gpu3 to track U_d easily
+DONE -- It seems minus1 both w/ and w/o D cannot bind ot AchE. Weird... did not expect.
+   DONE -- Can try AchE with plus1 probe.
+ DONE   -- Re-doing 1-rep with q and S now multiplying U values in function so output is exactly the real potential *NODE3*
+DONE  -- Also doing min1 w/ and w/o D plus neu w/ D to AchE to see if gives same result qualitatitley as with igps. I want to see
+            U_d for the probes etc. These are on gpu0**
+   DONE-- Re-doing igps-crp sims w/ and w/o D to see if I get same result as before, becasue for ache probe sims, w/ D is 2x FASTER
+          than w/o D. Makes no sense. I'm quite confused. and ache-ach seems to be about the same or slighlty faster w/ D too.
+   DONE-- re-do of igps made sense, w/ D was slower by like 60-70%.
+DONE-- U_d values seem high tho... sometimes over 1,000+. Remember they are mult by 0.1 before force calc tho, btu so are U_elec mult
+      by q... so be careful in potential calculation
+   -- Make sure I'm outputting right U values, maybe compare to my separate script. Also reorganize how U is calculated?
+   DONE -- check traj for rep 1 binders, then trakc back its U values in log file
+-- Tests for ache w/ ad w/o D going on gpu0 and node4. U_d gives pos values now as it should. I guess I used acidntally the old
+      D, from one of the other bins? Idk. But i outputted all gridder-D values at each point and all are pos, plus all
+      are pos it the new log file now after remaking D grid with correct binary file for sure.
+DONE -- **!! DO IGPS GRIDS FIRST *If keep getting weird results, remake D grids for both ache and igps and repeat both sets of sims
+
+   DONE-- Also, try a sim with no other grids, only D grid turned on, and pick several bind points. This must defmake it harder
+      to bind for any polar ligand. Try both ach and crp to their proteins w/ only D grid
+   DONE -- Just checked plus05 probe sims with ache. Probe binds more than 2x faster WITH D. This maakes no sense. Somthing is
+      wrong with grid. Remake grid and redo this probe sim with 1-rep.
+-- Make it throw error if bind crit LAID doesnt make sense instead of giving seg fault
+   -- Done the code, compiled OK. Now check it w/ single bead. May need to mess w laid+1 part
+-- SHould try ache-ach again but use best laid and make the distance smaller like  8A or somthing.
+   -- 8A tests not convg but so far show that D is less significant, w/ D sim is faster than w/o D at shorter dist. Is it
+      possible 8A away is less crowded than 10A away? Could be possible. Strange result so far
+   -- Started 1-rep runs of crp-igps to get clear energies when result has D slowing binding by 2fold.
+
+   DONE -- Remade all grids, and re-ran basic tests for ach and crp. Got same result. ach still goes faster with D.
+   DONE-- Now testing No-ES w/ and w/o D and going to do a new bind crit for ache and see what happens. New bc will need
+      some time to keep going.
+   DONE   But noES sims are making sense so far - its seeming much slower w/ D vs w/o D. Keep an eye one them
+DONE-- Make sure I'm outputting right U values, maybe compare to my separate script. Also reorganize how U is calculated?
+   -- Seems like ache w/o D is basically same as w/ D. Redoing w/o D sim on **NODE4** with 10 replicates (same as w/ D) to make comparison
+      totally same. Check this later tody.
+   -- Check ligand U_d in those igps sims
+   -- Try using cpr as lig with ache rec? see if D slows or speeds it up?
+   -- I think D made ach orient in such a way that its E elec was more attractive. Analyze log files to confirm this. THis
+      could be why w/ D sims for ach were a little faster than w/o D.
+   -- Doing a test where bind crit is based on laid 2, 3 and 5. Maybe using laid 1 with D on was causing the binding end to orient towards ache
+      becasue it is easier to desolvate, giving it easier binding orientation, adn thats why w/ D it binds a little faster.
+      COM bind crit w/ and w/o D cureently running on NODE4. If doesnt show differnce, then run ache-crp.
+   -- laid 2 and 5 both seems to show w/ D is still faster... very weird. Lets try laid 3 (should be v close to COM) and
+      maybe try -1 after that to see what happens.
+   -- Started ache-crp sims on gpu0.. but they don't seem able to bind. Crp just doesnt maturally bind ache I think, so this may
+      not really work out. Check again after giving it at least an hour
+   -- Why did com_bind not proudce a moving traj in first attempts? Only diff when it worked was using 2 threads inatead
+      of 10. Test this...is it reall a problem? Otherwise idk what the diff was between combind and 1-rep sims...
+  -- Made a script called getU that analyzes U from log files. It barely shows a tiny bit more iattaractive Uelec for D sims.
+      But try to analyzemore carefully. Picking a cutoff of -2.0 rn but this could be interefering
+   -- All tests re-done have showed same result, for ach and plus05, with D is 10-20% faster than w/o D
+   -- the noES sims for ache however show w/o D goes way faster than w/ D, as expected. So is it some kind of interplay betwn
+      ES and D that makes w/ D faster when ES is on?
+DONE -- I think 10 threads w/ 1 ligand doesnt produce dynamics for some reason. When changed to 5 threads it worked.. This
+   hpappned before on a test too. Confrim this
+   -- Tested this and turns out it will not produce moving traj if you request more than 6 threads per replicate!
+      Tested 1rep-, then 2rep w/ 14 or 12 thr, then 3 rep w/ 18 or 21 thr. COnfirmed this behavior.
+DONE Check again the pen check for random start. Got some sticking when doing AchE/ach test runs and smallch3 LJ test too.
+     -- I think itmight be ebcaus pen chk comes before translation at the end, so it usually appears to not be penetrating before
+       translation b/c it oculd be very far away from real rec coords. Basicaly in this case, pen chk is totally off. Checking now for
+       rect
+XXX DONE -- There should be lit on ache k_on. Compare to this. Sims w/ D should match. Also, take E elec compared to Eelec+Edesolv to
+     -- Make sure I'm outputting right U values, maybe compare to my separate script. Also reorganize how U is calculated?
+     -- Ache w/ D is faster likely because ES cause ligs to stick on hihglycharged surface sites, slowing biding.
+     -- Running 0.5M ES tests to see if D vs NO-D difference changes...it should be less severe, or even reverse so that
+      we see w/ D taking longer (e.g. w/ D takes longer when NO ES is present at all, and only LJ and D are loaded)
+     -- Re-running NO ES tests with same bind crit as new_bc and 0.5M sims to be consistent.
+       DONE -- calc k_on from sims vs paper
+XXX DONE-- Check what happens for huge lig, like target dna, when its COM being 10 A from rec in pen chck could stll result in overlap w/
+      rec because its radius if way bigger than 10 A.
+       -- I think this will result in overlap, and only way to make it not pen is to do rotation and translation first.
+     * Made new Body::checkPen fxn to do this after tranlateion and rotation have been done
+XXX DONE -- Figure out why LJ full values dont work and cause sticking. Try other potential forms, like 8-6 or something? Research this problem,
+    what have others used
+DONE -- Delete old bind keywords code, bind, bindAND, bindOR. Only bindgroups should matter now
+   - commented them out for now. AFter running several good sims that way, just delete it.
+DONE -- Clean up input file, reorganize it
+DONE Check wha happens when it gets back to zero after counting downward after turning negative. Will itstart counting up again?
+   Maybe try a way of saying if step first char is negative sign, then display positive number?
+-- XXX DONE PQR files must have END at end to run in Parameterize.py !!
+DONE -- Test an 8-6 LJ potential. Test shows reasonable result for it, similar to 12-6 with 0.2 coef. It is less attrxn than 12-6 since
+   repuplisve term doesnt die off as quicly w/ distance. Graph shoes 0.4 coef on 12-6 should be most similar to 8-6 with 1.0 coef.
+   So either way works.
+   -- But remember ot change code back to 12-6 if going with that! Rn code is set for 8-6, changed in Gridder.h and GridderLJ.cc
+DONE -- Can it make more than 1 ex/lj/es grid for multi receptors? Why do grid types have .size() attribute?
+   - Seems possible to do this, but not confirmed that it works yet. Testing now. Can load two es grids in input file fine
+     See if lig actually go to and bind with both proteins.
+   - Also check esmaps size is correct by doing cout
+   DONE - confirmed this workd with two minus5 recs and plus5 ligs. Ligs stuck all over both minus5 recs.
+   - Check if it handles multi LJ and D maps too. If so, its good and done.
+DONE -- Get rid of warning in Griddre EX about no params specified
+DONE -- For all grids: make it give clearer output w/ padding/param values used, and make ES and D not need ligand input anymore, as its
+   not reqd and v confusing.
+   DONE -- Started this now; reomoved all mentions of lig in ES and D.
+      -- Found taht Granularity was still in ES and D grids. Commented it out, but I will put it back in too
+      and cout some variables to see if it was having any effect. *I think it did affect searchrd in Gridder.h! But should not
+      have ahd big affect on simulations. I just affects grid size fo ES/LJ/D becaus Gran WASN'T in EX code. So no problem.
+     ** -- Full test of all new no-lig grids and Granularity taken out is being runfor AchE. Compare to "newbcD" simulation from earlier.
+         -- Was going faster because accienltyally used 120 instead of 150 for boundWall. Redoing, it should be fine!
+-- XXX DONE --  Delete redundant code (old session keywords udner backwards-compatitblity) 
+-- Add restart info about Nbind, SD, SEM, so i can continue with the statistics etc
+   -- Also check if its more better to use sessions[0]->bindingcriteria[0] or session->bc or something like that, in Model Input
+      and in Model_outptu etc new fxns
+   DONE -- After that, check that avg times, SD SEM etc are being calc correct. Already saw that avg crit Time does calc fine after new binding
+       after restart!
+   DONE Make it start calculation SEM and SD based on Nbind of prev run plus restart run. If prev already had more than window, it should
+      start calc right away, not reset again from 0.
+   DONE-- Figure out why it didnt restart bind info correclty when i didnt set userestart=yes in input file. useRestart should have alreay = true
+      since rst files were present. Figure out whats going on with that and set error msgs straight. * It was b/c of useRestart is set in Input and in
+      Model if files are present. Fixed now w/ err msg for both situations. Will not auto do restart if files are present. Forces input file and command
+      line to agree now.
+DONE -- Why did conv < 0.01 not stop the mgrid4 simulation? Check whats going on
+DONE -- Clean up output to screen on GBD start. Figure out order, and make say Simulation Running... as last thing
+DONE --  Add in flow functionality and keyword
+    DONE -- Add force to COM only or to each bead? If add to beads, then total F is sum of all beads. I think COM makes it way simpler.
+    -- Flux from external force = C(x)*F_e/fricion
+    DONE -- Check the Gaussian random force strength/units added. Units should be kcal/mol/A = .5922 kT/A
+
+    DONE -- Output F.x at each step to see its magnitude, and teh random S part too
+-- Make nam beta kon calcs etc only happen for nam settings
+-- Try session direct + indirect as per old GBD doc on site to see if all that old stuff still works
+   -- When it does work, Make sure they reset to indir=flase after bind or ext, then need to make it have option keyword to label
+      dir/indir, else have it do nothing. Test resetting by just using 1 replicate will be easy
+DONE -- Test vol parameter, is it right, etc, for all shapes
+
+DONE -- Need to reimplement kon from beta calc for NAM configurations and do other kon for non NAM
+   -- Startng this. If success, can delete all the SessionDirect fxns in session andother session.cc code for bindingCritera size > 1.
+      DONE -add code to make it use boundar=3 if logDirect is set, and it makes q=wall to use same boudary outer boudary as in nam
+   --Made ModelInput line after infile read that sets session->q = boundwall. This worked, and it means that prior setting of q=wall in session.cc
+     was too late, and some earlier check for dist>q probably made it register ligands as done, because q was still =0 at that point. But wehre did
+     that happen? If can find, can make code simpler, but not nescessary
+      -- mycode/chris grids = error pqr; mycode/mygrids = error pqr; chriscode_mygrids = error pqr; chriscode_chrisgrids = error pqr. Now I cant figure out
+      what combination, if any gives correct pqr. I think all give wrong pqr, and I was incorrect before about it working in some cases.
+   -- !! Found that old code had the q reading problem (wrong line in pqr was read) so the old sims were all wrong. Changed and did new comps.
+   -- New comp times:
+        OLD:
+        k_on = 2.41749e+10 M⁻¹s⁻¹ Nbind=5530 Ndone=43626 β=0.126759 conv=9.9171e-05
+        k_direct = 1.81012e+07 s⁻¹ Nbind=7439 Ndone=23109 t_avg=17783.9 β=0.321909 conv=9.9593e-05
+        NEW:
+        k_on = 2.5, B=13, 
+        k_direct = 1.8 SAME, B=32 SAME
+
+DONE -- Make ligs reset to t=0 and random b sphere position on first cross of b
+   -- it works in that it only resets upon first b crossing, but it reset according to the point condition, ie puts them back at starting xyz point,
+      rahter than using NAM b position fucntino. Need new positionIndirect function I think, so i can call that function.
+   -- Initial tests show that it all works now. Do final sim to check matching with old NAM code.
+   -- DONE, gets exact matching with corrected old code
+DONE -- Maybe put all translate() and rotate() at end of postionsLigand() followed buy checkPenetration(). If (checkPen), the call positionLigand() again.
+   This would make Session.cc code much cleaner. However it works fine now. Do this is have time
+DONE -- Merge all session into one sessions, SessionA.
+   -- Test sim going, should match the old dir/indir results, chaning the session name should make no difference. Check for matching. "sessA" its called.
+
+
+----------------------------------------------------------
+----------------------------------------------------------
+
+--  Finish new grid shape. After gridder part done, reading in grid files by GBD (Grid_EX.h etc) may also need
+    to be updated
+    -- May be an easier way to do this, based on EX grid true/false points. Only allocate mem for each true point, then 
+       how would coordto grid work? Check if this is any easier
+
+-- Test again the LJ scaling necessaryfor agreement w MD. D's masured before may have been wrong
+
+-- ! Make it check that start point is within boundary!
+
+-- Eliminate solpar from param files, maybe? 
+
+-- Check what happens if receptor has negative coordinates.....
+
+-- Clean up output to screen and log file
+
+-- Make it calc both SD of mean like before and SEM? Is SEM a good measure of convergence?
+
+-- Calculation convg based on all bind crit might not make sense if they are vastly different w/ diff avg times. Maybe log
+   bind times for indiv crit and do SEM for indiv crits too. But rarely met crit will never convg so maybe still do convg based on SEM of all
+   and recommoned users to monitor themselves
+
+-- Make rotation of ligs optional for all starts?
+
+-- Make energy output optional in log file, writeEnergy..?
+
+-- Go in to Parameize.py code and figure otu why sometiems itmesses up on terminal residues, not getting charges for H's etc.
+   Ex. use AchE2.pdb and try to param it. Terminal SER has problems. PRO problem solved by making 'H' into HA or something else
+   that appears in AA file. But still not sure about terminal probelm. Maybe has to do with having OXT? Puttng OXT fixed it 
+   kind of...it will assign params if OXT is there for terminal res in most cases I think. Or itll call Babel. What makes
+   it says "Calling openBabel?" Figure that out. *For Shiv, erasing OXT also worked a terminal res if changed param file to have same O name
+   Maybe if OXT is going to th eaccepatable, res name needs to have N or C in front to indicate terminal position...
+
+-- Sticking problem solved by choosing new start point little furher away from receptor. Both new and old Chris code got stickign in my
+   tests. Figure out why it sticks when really close starting is chosen. Maybe use EX padding to stop this? Is it related to EX grid? They
+   only stick affter binding and regenerating at start point.
+
+-- Flux from external force = C(x)*F_e/fricion. Calc this based on kcal/mol/A F added like 0.1 or so. What friction (f) tho?
+   -- f = 6pi*mu*R*v, and i think for v we can use the D of the ligand 
+
+-- Re-run Ache sims with NAM method for comparison to hard shpere rates?
+
+-- transfter dir/indir needs explanation on GBD site, Make it more clear that it will initionate diff sim type. And then add check/warning for 
+   incompatible shapes (rect/hex) with logdirect activated. Changed initiaion of this sim to 4 numbers in input file: x y z direct_cutoff
+
+-- Make it do cuboid cell for rec at bottom or middle, based on fixedReceptor option. If not fixed, rec is centered, else its at bottom
+
+-- Clean up log output, esp for dir/indir sims.
+
+-- (optional) Conv for logDirect sims should be based on beta of indir part just like NAM ones are. Need to do little new code tho use Nindir / Nindir+Nexit. 
+              But leaving it as Nbind / Nbind+Nexit is fine too, jus tmeans its counting all binders not just indir binders        
+
+-- Check if R force output is correct
+

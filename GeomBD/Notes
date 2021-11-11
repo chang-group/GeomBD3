@@ -1,0 +1,79 @@
+DONE -Where is positionLigand called initially and where is it looped over for each replicate? Need to find this. If possible, 
+use "if" in currenlty sessionNAM position ligand. If not possible, then create new fucntion called restartSetup() 
+or something that assigns t and R.x y z etc for each bead and body. This new fxn could go where positionLigand currnelty gets called. 
+
+*DONE* Was able to make ligand sstart from a certain position when step = 0 adn then get repositioned to new traj starting 
+  place (plane or rand coord)! Now need to make restart postions be read in from file instead of just made up by
+  me. Maybe can read restart file at same place as other files if restart=true and then use that info in Session.cc
+
+*DONE* Made new constructor for Model that takes 5 params now, old took 3. This one takes those 3 plus rst crd and rst timer. Dont know
+  if i need to keep old 3 param constructor for Model too, or if I can just have the defualt and the 5 param one...
+  
+*DONE* (it worked) Try deletin gthe 3 param one to see if still works both ways - with 3 inputs adn 5 inputs.
+
+*DONE*- Then, need to create some new vectors in Model to hold rst info then assign those to the beads/bodies somewhere..
+
+*DONE* Tmr, asign rst info in vector vrc and vrt to the ligands in session.cc. Try in SessionNAM first then Session if that doesnt work.
+       How will get it to loop over all replicates? Maybe make it ouput N in the fo rloop over N replicates to see ...
+
+*DONE* Got rst coords working perfectly!
+
+- ! Eventually, rst crds needs to iterate over all atoms in ligand. Test this out. It may already work partially because
+  translate() already iterates, however, the "iter" will have ot be different since theres "# lig atoms" per ligand rathe r
+  than just one...
+
+*DONE* Need to now work on getting rst timers to assign
+
+- rst crd and timers work perfeclty! Tested both conclusively for 1 ligand restarting w/o binding yet adn then binding in 
+  2nd restart sim. All restart times and binding times were correct
+
+- Chk that rst simultions work for multi-atom ligands. Next work on adding single-point starting postion or Grid shape.
+
+*DONE* Newest rst code works for singl-atom beads. I can position each bead and the COM separately and get right positon and dynamics
+  But for crp ligand, it does not write the restrt pqr properly, something is wrong with first atoms coords and screws everyhing
+  up
+  - maybe try a simple 2-atom ligand, etc
+
+*DONE* Rest crds for crp ligand work perfectly now! YES!
+
+- I understand gridEX pretty well know. Just run it w/ tons of cout to see evverything on a tiny receptor. Then, use that
+  to help get grid LJ
+- LJ is 8x bigger than EX bc a doulbe each 8x bigger than a bool (the data types held for each grid pt). Also EX default -s is 1.0
+  whereas LJ -s is 0.5 by default. 
+- I htink i can make LJ grids smaller by justmaking EX grid smaller, b/c LJ is based of an ex grid at first!
+
+*DONE* Grid EX can now read receptor by slices in z dim and figure out how many atoms are in each slice plus the width in x/y of
+       each slice. Tested on hairpin and biosensor
+
+- Next, need to make it do calculate() only on the smaller slices, not on the whole maximum boundaries as it currenlty does.
+
+*DONE* Gridder.h can now make slices and find dimensions and Npoits in each slice. And it can find which slice each crd falls in.
+  But I should take the code I put into coordinatToGrid and make it into a new function coordinateToGridSlice, because tahtll
+  be better and I also had to make some werid changes to coordToGrid at bottom of Gridder.h and I'm not sure why. So i can undo those
+  and just put code into a new fxn. 
+
+*DONE* make coordinaateToGridSlice() to find xyz origin of the slice the crd is in, so that calculate() can just loop
+  thru that slice.
+
+*DONE* Made 2 fxn, coordinateToSlice and coordinateToGridSlice. Need to verify that the later fxn works properly, it works same logic
+       a s original coordinateToGrid does, so it should be fine. But check it. Already set dist calc to loop only thru slice dimensions
+
+-Also need to change memory allocation to the smaller overall grid dimensions and/or change the write() fxn to write basically each
+ layer/slice one at a time. i.e. add a outermost for loop that is looping over the layers then for looping on each x y z as current
+ one does
+
+*DONE* Made change to Contructor to read in granularity parameter. 
+
+--------------------------------------------------------------------
+
+- Discovered that there are major problmes when spacing is
+  not equal to 1. If s = 2, atoms in grid are under counted, ie less grid atoms than rec atoms. If s =0.5, all atoms were counted
+  but they all lied in the bottom half of the grid slices. Even if s =1, if padding is too small, got some crazy origin
+  values for the y and z parts, just junk values... Need to figure out why this happens
+
+- Tmr, work on finishing new allocate code for sdata****. Make it totally analogous to data*** for simplicity. I think it can all
+  work after this. Run and check grid size compared to old Gridder
+
+- Pointstart overides all other start types
+
+

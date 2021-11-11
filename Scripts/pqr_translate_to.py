@@ -1,0 +1,46 @@
+#!/usr/bin/python
+
+# Christopher C. Roberts, 2015
+
+import sys
+
+if len(sys.argv) < 5:
+  print 'Usage: pdbTranslate.py PDBFILENAME DX DY DZ'
+  sys.exit()
+
+dx = float(sys.argv[2])
+dy = float(sys.argv[3])
+dz = float(sys.argv[4])
+
+n = 0.
+c = [0., 0., 0.]
+
+for line in open(sys.argv[1]):
+  line = line.strip()
+  if line.startswith('ATOM') or line.startswith('HETATM'):
+    c[0] += float(line[30:40])
+    c[1] += float(line[40:50])
+    c[2] += float(line[50:60])
+    n += 1.
+
+for i in range(3):
+  c[i] /= n
+
+dx -= c[0]
+dy -= c[1]
+dz -= c[2]
+
+
+print 'REMARK translating center to ', c
+
+for line in open(sys.argv[1]):
+  line = line.strip()
+  if line.startswith('ATOM') or line.startswith('HETATM'):
+    x = '%8.3f' % (float(line[30:40]) + dx)
+    y = '%8.3f' % (float(line[40:50]) + dy)
+    z = '%8.3f' % (float(line[50:60]) + dz)
+    newline = line[:30] + x + y +z + line[60:]
+    print newline
+  else:
+    print line
+
