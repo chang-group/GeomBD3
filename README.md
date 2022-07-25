@@ -53,7 +53,7 @@ To modify and compile the source code
 
 ### References
 
-* [1] Timothy Cholko, Shivansh Kaushik, Kingsley Y Wu, and Chia-en A. Chang, GeomBD3: Brownian Dynamics Simulation Software for Biological and Engineered Systems. J of Chem. Mol. Info, 2022 [link]
+* [1] Timothy Cholko, Shivansh Kaushik, Kingsley Y Wu, and Chia-en A. Chang, GeomBD3: Brownian Dynamics Simulation Software for Biological and Engineered Systems. J of Chem. Info. Mol, 2022 [link]
 * [2] Roberts, C. C. and Chang, C-E. A.*, Modeling of Enhanced Catalysis in Multi-enzyme Nanostructures: Effect of Molecular Scaffolds, Spatial Organization, and Concentration. J. of Chemical Theory and Computation, 2015 [link]
 
 * [3] Roberts, C. C. and Chang, C-E. A.*, Analysis of Ligand-Receptor Association and Intermediate Transfer Rates in Multi-enzyme Nanostructures with All-Atom Brownian Dynamics Simulations. J. of Physical Chemistry B. 2016 [link]
