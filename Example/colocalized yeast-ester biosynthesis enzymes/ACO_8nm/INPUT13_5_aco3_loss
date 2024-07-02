@@ -1,0 +1,38 @@
+temperature 298.15
+timestep 0.05 0.05 500 1500
+threads 24
+writeTraj 5000
+writeRestart 100000
+convergence 0.001
+convwindow 50
+useRestart no
+
+receptor centered_pdb.pqr
+
+fixedReceptor on
+
+grid d centered_pdbd.bpm
+grid ex centered_pdbex.bxm
+grid es centered_pdb_0.35M_0.35Mes.bpm
+grid C centered_pdbC.bpm
+grid O centered_pdbO.bpm
+grid H centered_pdbH.bpm
+grid N centered_pdbN.bpm
+grid P centered_pdbP.bpm
+grid S centered_pdbS.bpm
+
+session indirect
+
+ligand ACO_H.pqr 100
+
+ligandStart -8.390 11.326 -133.78
+ 
+bindGroups -8.873 133.798 -52.0007 6 13.5 OR -8.873 133.798 -52.0007 10 13.5 OR -8.873 133.798 -52.0007 21 13.5 OR -8.873 133.798 -52.0007 16 13.5 OR -8.873 133.798 -52.0007 24 13.5 OR -8.873 133.798 -52.0007 33 13.5 OR -8.873 133.798 -52.0007 40 13.5 OR -8.873 133.798 -52.0007 46 13.5 OR -8.873 133.798 -52.0007 49 13.5 
+    
+boundWall 210
+boundary rect
+ceiling -400
+
+logBinders
+
+
